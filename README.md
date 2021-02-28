@@ -73,3 +73,4 @@ private void BringWindowToFront()
 ## Notes
 * Don't forget to use an unique identifier for every application
 * You can optionally add settings for the user to opt-in for single instance or multiple instance application
+* This sample uses .NET 5 but this also works with WPF app with framework 4.7.2 or 4.8 (and probably others, but those two are the ones I tested)
