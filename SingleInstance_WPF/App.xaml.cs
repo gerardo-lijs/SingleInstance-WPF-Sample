@@ -10,24 +10,26 @@ namespace SingleInstance_WPF
 {
     public partial class App : Application
     {
-        // Single instance identifier
+        /// <summary>
+        /// This identifier must be unique for each application.
+        /// </summary>
         private const string ApplicationSingleInstanceGuid = "{910e8c27-ab31-4043-9c5d-1382707e6c93}";
         private static System.Threading.Mutex _singleInstanceMutex;
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            // Create mutex
+            // Create SingleInstance Mutex
             _singleInstanceMutex = new System.Threading.Mutex(true, ApplicationSingleInstanceGuid);
-            var mutexIsAcquired = _singleInstanceMutex.WaitOne(TimeSpan.Zero, true);
+            var isOnlyInstance = _singleInstanceMutex.WaitOne(TimeSpan.Zero, true);
 
-            // TODO: Read from settings if you want your user to be able to opt-in to multiple instance or not
+            // TODO: Read from settings if you want your users to be able to opt-in to multiple instance or not
             var settings_AllowMultipleInstances = false;
-            if (settings_AllowMultipleInstances || mutexIsAcquired)
+            if (settings_AllowMultipleInstances || isOnlyInstance)
             {
                 // Show main window
                 StartupUri = new Uri("MainWindow.xaml", UriKind.Relative);
 
-                // Release mutex
+                // Release SingleInstance Mutex
                 _singleInstanceMutex.ReleaseMutex();
             }
             else
